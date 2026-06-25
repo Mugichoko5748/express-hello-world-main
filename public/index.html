@@ -36,6 +36,12 @@
       background: #eee;
       cursor: pointer;
     }
+
+    #rollBtn {
+      padding: 10px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -46,6 +52,7 @@
       <input class="input" autocomplete="off" />
       <button class="submit">Send</button>
     </form>
+    <button id="rollBtn">🎲 チンチロ</button>
   </div>
   <canvas id="canvas" width="600" height="600" style="border: solid 1px black"></canvas>
 
@@ -60,7 +67,7 @@
 
       let drawing = false
 
-      
+
       canvas.addEventListener('mousedown', (e) => {
         sendDrawingEvent(e.offsetX, e.offsetY, 'mousedown')
       })
@@ -146,8 +153,17 @@
         }
       }
 
-      const form = document.querySelector('.form')
+      const rollBtn = document.getElementById('rollBtn')
 
+      rollBtn.addEventListener('click', () => {
+        ws.send(
+          JSON.stringify({
+            type: 'chinchiro',
+            user: myId,
+          })
+        )
+      })
+      
       form.onsubmit = function (e) {
         e.preventDefault()
         const input = document.querySelector('.input')
