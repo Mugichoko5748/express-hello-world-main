@@ -13,14 +13,34 @@ app.ws('/ws', (ws, req) => {
   connects.push(ws)
 
   ws.on('message', (message) => {
-    console.log('Received:', message)
+    const data = JSON.parse(message)
 
-    connects.forEach((socket) => {
-      if (socket.readyState === 1) {
-        // Check if the connection is open
-        socket.send(message)
+    if (data.type === 'chat') {
+      connects.forEach((socket) => {
+        if (socket.readyState === 1) {
+          socket.send(JSON.stringify(data))
+        }
+      })
+    }
+
+    if (data.type === 'chinchiro') {
+      const dice = rollDice()
+      const result = judgeDice(dice)
+
+      const response = {
+        type: 'chinchiroResult',
+        user: data.user,
+        dice,
+        role: result.role,
+        score: result.score
       }
-    })
+
+      connects.forEach((socket) => {
+        if (socket.readyState === 1) {
+          socket.send(JSON.stringify(response))
+        }
+      })
+    }
   })
 
   ws.on('close', () => {
