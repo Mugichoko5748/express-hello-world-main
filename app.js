@@ -40,6 +40,13 @@ app.ws('/ws', (ws, req) => {
         }
       })
     }
+    if (data.type === 'paint') {
+      connects.forEach((socket) => {
+        if (socket.readyState === 1) {
+          socket.send(JSON.stringify(data))
+        }
+      })
+    }
   })
 
   ws.on('close', () => {
