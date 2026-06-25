@@ -37,9 +37,11 @@
       cursor: pointer;
     }
 
+    .submit,
     #rollBtn {
       padding: 10px;
-      margin-top: 5px;
+      border: 1px solid #ccc;
+      background: #eee;
       cursor: pointer;
     }
   </style>
@@ -50,9 +52,15 @@
     <ul class="messages"></ul>
     <form class="form">
       <input class="input" autocomplete="off" />
-      <button class="submit">Send</button>
+
+      <button class="submit" type="submit">
+        Send
+      </button>
+
+      <button id="rollBtn" type="button">
+        チンチロ
+      </button>
     </form>
-    <button id="rollBtn">🎲 チンチロ</button>
   </div>
   <canvas id="canvas" width="600" height="600" style="border: solid 1px black"></canvas>
 
@@ -136,7 +144,7 @@
           const li = document.createElement('li')
 
           li.textContent =
-            `${msg.user} 🎲 ${msg.dice.join(', ')} → ${msg.role}`
+            `${msg.user} チンチロ！🎲 ${msg.dice.join(', ')} → ${msg.role}`
 
           messageList.appendChild(li)
         }
@@ -163,7 +171,7 @@
           })
         )
       })
-      
+
       form.onsubmit = function (e) {
         e.preventDefault()
         const input = document.querySelector('.input')
