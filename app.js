@@ -25,14 +25,13 @@ app.ws('/ws', (ws, req) => {
 
     if (data.type === 'chinchiro') {
       const dice = rollDice()
-      const result = judgeDice(dice)
+      const role = judgeDice(dice)
 
       const response = {
         type: 'chinchiroResult',
         user: data.user,
         dice,
-        role: result.role,
-        score: result.score
+        role,
       }
 
       connects.forEach((socket) => {
